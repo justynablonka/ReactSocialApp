@@ -1,0 +1,23 @@
+.main-menu {
+    display: block;
+    flex-basis: 20%;
+    margin: 10px 10px;
+    padding: 15px 15px;
+}
+
+.main-menu ul li {
+    list-style: none;
+    text-align: left;
+    line-height: 2;
+}
+
+.main-menu ul li a {
+    text-decoration: none;
+    color: #000000;
+    transition: 0.4s;
+    font-weight: 700;
+}
+
+.main-menu ul li a:hover {
+    color: #FE4880;
+}
