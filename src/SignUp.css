@@ -1,3 +1,9 @@
+.outer-container {
+  display: flex;
+  justify-content: center;
+  vertical-align: center;
+}
+
 .signup {
   margin-top: 50px;
   margin-bottom: 50px;
@@ -5,29 +11,32 @@
 }
 
 .message {
+  display: none;
   max-height: 40vh;
   max-width: 100%;
-  display: none;
-  background: #282c34;
   color: #000;
   position: relative;
-  padding: 20px;
-  margin-left: 20px;
-
+  padding: 10px 10px 10px 20px;
+  border: #aaa8a8 solid 1px;
+  border-radius: 4px;
 }
 
 .message p {
-  padding: 10px 35px;
-  font-size: 18px;
+  font-size: 12px;
+  padding: 5px 5px;
 }
 
 .message h3 {
-  color: #fff;
+  color: #aaa8a8;
+  font-size: 13px;
+  font-weight: 200;
+  margin: 5px 0px;
 }
 
 #errors {
     color: red;
     min-height: 50px;
+    font-size: 16px;
   }
 
 p {
@@ -48,23 +57,25 @@ input {
 
 /* Add a green text color and a checkmark when the requirements are right */
 .valid {
-  color: green;
+  color: rgb(21, 133, 21);
 }
 
 .valid:before {
   position: relative;
-  left: -35px;
+  left: -10px;
+  right: 10px;
   content: "\2611";
 }
 
 /* Add a red text color and an "x" icon when the requirements are wrong */
 .invalid {
-  color: red;
+  color: #FE4880;
 }
 
 .invalid:before {
   position: relative;
-  left: -35px;
+  left: -10px;
+  right: 10px;
   content: "\2612";
 }
 

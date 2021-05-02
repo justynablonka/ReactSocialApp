@@ -2,23 +2,14 @@ import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-// import { NativeRouter, Route, Link } from 'react-router-native'
-
 import Menu from './Menu';
-// import MainView from './MainView';
 
 import Home from './Home';
 import LoginData from './LoginData';
 import SignUp from './SignUp';
-// import UseToken from './UseToken';
+import SavedPosts from './SavedPosts';
 
 function App() {
-
-  // const [ token, setToken ] = useState();
-
-  // if (!token) {
-  //   return <Login setToken={setToken} />
-  // }
 
   return (
     <div className="App">
@@ -26,21 +17,28 @@ function App() {
         Social App
       </header>
 
-      <div className="main">
-        <Menu />
-        <BrowserRouter>
-          <Switch>
-            <Route path="/home">
-              <Home />
-            </Route>
-            <Route path="/signup">
-              <SignUp />
-            </Route>
-            <Route path="/login">
-              <LoginData />
-            </Route>
-          </Switch>
-        </BrowserRouter>
+      <div className="main-container">
+        <div className="menu">
+          <Menu />
+        </div>
+        <div className="main-content">
+          <BrowserRouter>
+            <Switch>
+              <Route path="/home">
+                <Home />
+              </Route>
+              <Route path="/signup">
+                <SignUp />
+              </Route>
+              <Route path="/login">
+                <LoginData />
+              </Route>
+              <Route path="/saved_posts">
+                <SavedPosts />
+              </Route>
+            </Switch>
+          </BrowserRouter>
+        </div>
       </div>
     </div>
   );

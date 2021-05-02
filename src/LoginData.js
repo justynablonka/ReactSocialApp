@@ -16,8 +16,7 @@ function LoginData() {
     const login = details => {
         console.log(details);
 
-        if (details.email == adminUser.email && details.password == adminUser.password) { //if (existingUsers.includes(userLoggingIn)) {
-            console.log("Jesteś zalogowany");
+        if (true) {//(details.email == adminUser.email && details.password == adminUser.password) { //if (existingUsers.includes(userLoggingIn)) {
             setUser({
                 username: details.username,
                 email: details.email
@@ -26,32 +25,33 @@ function LoginData() {
             const headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
-                // 'Authorization': 'Bearer ' + <jwtToken>
             }
     
             axios.post(
-                'https://akademia108.pl/api/social-app/user/login',
-                JSON.stringify(details.email),
+                'http://localhost:3100/login',
+                { 'username': details.username,
+                  'title': details.title },
                 { 'headers': headers })
                 .then(response => {
-                    console.log("Zalogowany użytkownik: ");
-                    console.log(details.username); // dane użytkownika
+                    localStorage.setItem('token', JSON.stringify(response.data.accessToken));
+                    localStorage.setItem('username', JSON.stringify(details.username));
+                    localStorage.setItem('title', JSON.stringify(details.title));
+                    console.log(`Zalogowany użytkownik: ${details.email}`);
+                    console.log(response.data);
                 }).catch(error => {
                     console.log("Błąd: ");
                     console.error(error);
                 })
 
         } else {
-            setError("Nieprawidłowe dane")
+            setError("Nieprawidłowy adres e-mail lub hasło.")
         }
     }
-
-    // myStorage = localStorage;
-    // localStorage.setItem('myCat', 'Tom');
 
     const logout = () => {
         console.log("Log out");
         setUser({ id: "", name: "", email: "", password: "", ttl:"" });
+        localStorage.clear();
     }
 
     return (

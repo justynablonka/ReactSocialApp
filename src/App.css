@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #be7d27;
   min-height: 20vh;
   display: flex;
   flex-direction: column;
@@ -38,14 +38,23 @@
   }
 }
 
-.main {
+.main-container {
   display: flex;
 }
 
+.menu {
+  display: block;
+}
+
+.main-content {
+  display: block;
+}
 
 .form {
   display: block;
-  position: relative
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .form:after {

@@ -6,23 +6,10 @@ import UsersList from './UsersList';
 
 function SignUp(props) {
 
-    const [users, setNewUser] = useState([]);
+    const [users, setNewUser] = useState({ id: "", name: "", email: "", password: "" });
+    const [error, setError] = useState("");
 
     const createNewUser = () => {
-        //JEŚLI KTÓREKOLWIEK POLE BĘDZIE MIEĆ KLASĘ INVALID: (trza zmienić ten kod)
-        // if (errors.length > 0) {
-        //     for (const error of errors) {
-        //         let errorLi = document.createElement('li');
-        //         errorLi.innerText = error;
-        //         errorsUl.appendChild(errorLi)
-        //     }
-
-        //     return false;
-        // }
-
-        // let username = document.getElementById('username');
-        // let email = document.getElementById('email');
-        // let password = document.getElementById('password');
 
         let newUser = {
             id: Date.now(),
@@ -39,28 +26,28 @@ function SignUp(props) {
             });
         })
 
-        // const headers = {
-        //     'Content-Type': 'application/json',
-        //     'Accept': 'application/json'
-        // }
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
 
-        // axios.post(
-        //     'http://akademia108.pl/api/social-app/user/signup', 
-        //     JSON.stringify(newUser),
-        //     { 'headers': headers })
-        //     .then(response => {
-        //         console.log("Dane zostały przesłane");
-        //         console.log(response.data); // dane użytkownika
-        //         setNewUser(() => {
-        //             return ({
-        //                 users: users.concat(newUser)
-        //             });
-        //         })
+        axios.post(
+            'http://localhost:3100/users', 
+            JSON.stringify(newUser),
+            { 'headers': headers })
+            .then(response => {
+                console.log("Użytkownik utworzony.");
+                console.log(newUser.username);
+                setNewUser(() => {
+                    return ({
+                        users: users.concat(newUser)
+                    });
+                })
 
-        //         this._inputUsername.value = '';
-        //     }).catch((error) => {
-        //         console.error(error); 
-        //     })
+                this._inputUsername.value = '';
+            }).catch((error) => {
+                console.error(error); 
+            })
 
         // {
         //     "signedup":true,
@@ -239,7 +226,7 @@ function SignUp(props) {
     }
 
     return (
-        <div>
+        <div class="outer-container">
             <form class="form" id="create-account-form" onSubmit={createNewUser}>
                 <div className="form-inner">
                     <h2>Utwórz konto</h2>

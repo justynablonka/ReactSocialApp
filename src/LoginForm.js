@@ -21,7 +21,7 @@ function LoginForm({ login, error }) {
                     <h2>Zaloguj się</h2>
                     {(error != "") ? ( <div className="error">{error}</div> ) : ""}
                     <div className="form-group">
-                        <label htmlFor="username">Nazwa użytkownika:</label>
+                        <label htmlFor="username">Nazwa użytkownika (niewymagana):</label>
                         <input type="text" name="username" id="user-login" onChange={e => setDetails({...details, username: e.target.value})} value={details.username} /><br />
                     </div>
                     <div className="form-group">
