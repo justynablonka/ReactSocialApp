@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 
 import './SavedPosts.css';
@@ -40,7 +40,7 @@ function SavedPosts() {
     }
 
     return (
-        <div class="posts">
+        <div className="posts">
             Lista prywatnych postów (tylko ty je widzisz):<br />
             <button onClick={showPosts}>Poka posty</button>
             <ul id="postsList" />

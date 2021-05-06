@@ -12,13 +12,31 @@
 
 .message {
   display: none;
-  max-height: 40vh;
-  max-width: 100%;
+  max-width: 280px;
+  height: 180px;
   color: #000;
   position: relative;
   padding: 10px 10px 10px 20px;
   border: #aaa8a8 solid 1px;
   border-radius: 4px;
+  margin-top: 60px;
+  margin-left: 50px;
+}
+
+#message-username {
+  margin-top: 150px;
+}
+
+#message-email {
+  margin-top: 190px;
+}
+
+#message-psw {
+margin-top: 230px;
+}
+
+#message-psw-confirm {
+  margin-top: 270px;
 }
 
 .message p {
@@ -47,7 +65,7 @@ p {
 
 input {
     min-width: 80px;
-    padding: 12px;
+    padding: 12px 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
