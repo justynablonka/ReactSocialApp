@@ -1,52 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Home.css';
 
 function Home() {
 
-    const [feedError, setfeedError] = useState("");
+    const [ttlValue, setTtlValue] = useState();
 
-    const handleFeedVisibility = () => {
-        var accessToken = localStorage.getItem('token');
-        console.log(accessToken)
+    useEffect(() => {
+        // handleShowFeed(); //raz, nie co sekundę
 
-        setfeedError("");
-        const headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
+        let user = JSON.parse(localStorage.getItem('user'));
+        let countdownInp = document.getElementById('countdownInp');
+
+        if (user != null) {
+            if (!ttlValue) {
+                setTtlValue(user.ttl)
+            }
         }
-        axios.post(
-            'https://akademia108.pl/api/social-app/post/latest',
-            { 'headers': headers })
 
-            .then(response => {
-                if (accessToken !== "null") {
+        const interval = setInterval(() => {
+            if (user != null && ttlValue !== 0) {
+                setTtlValue(ttlValue => ttlValue - 1);
+            }
+        }, 1000)
 
-                    var nodeDivEntry = document.getElementById('add-entry-div');
-                    
-                    var nodeTextArea = document.createElement("textarea");
-                    var nodeSpanUsername = document.createElement("span");
-                    var nodeButton = document.createElement("input");
+    }, []);
 
-                    var myUsername = document.createTextNode(response.data.username);
+    const handleShowFeed = (user) => {
+        var user = JSON.parse(localStorage.getItem('user'));
 
-                    nodeSpanUsername.appendChild(myUsername);
+        if (user != null) {
+            var accessToken = user.jwt_token;
 
-                    nodeDivEntry.appendChild(nodeTextArea);
-                    nodeDivEntry.appendChild(nodeSpanUsername);
-                    nodeDivEntry.appendChild(nodeButton);
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+            axios.post(
+                'https://akademia108.pl/api/social-app/post/latest',
+                { 'headers': headers })
 
-                    nodeTextArea.setAttribute("placeholder", "Write your entry here");
-                    
-                    nodeButton.setAttribute("type", "submit");
-                    nodeButton.setAttribute("value", "Submit");
-                    nodeButton.setAttribute("class", "btn");
+                .then(response => {
 
-                    //- ma pobierać 10 ostatnich postów użytkownika i użytkowników których śledzi
+                    //DO ZMIANY
+                    //- ma pobrać 10 ostatnich postów użytkownika i użytkowników których śledzi
                     //- request ma być wysyłany z tokenem, żeby wiadomo było kto
                     //  followuje i id usera którego followujemy
                     //- ma też pojawić się okienko do pisania posta
+
                     for (let entry = 0; entry < 10; entry++) {
 
                         var nodeLi = document.createElement("li");
@@ -69,11 +71,50 @@ function Home() {
                         nodeDiv.appendChild(nodeContent);
 
                         nodeLi.appendChild(nodeDiv);
-
-                        document.getElementById('posts-list').appendChild(nodeLi);
                     }
+                }).catch(error => {
+                    console.log("Error: ");
+                    console.error(error);
+                })
+        }
+        else {
 
-                } else {
+          //- ma pobrać 10 ogólnie ostatnich postów
+
+        }
+    }
+
+    const handleAddPostButton = () => {
+        var accessToken = localStorage.getItem('token');
+        if (accessToken !== null) {
+            document.getElementById('add-message-div').classList.remove('hidden');
+            document.getElementById('add-message-div').classList.add('visible');
+        }
+    }
+
+    const handleButtonLoadMore = () => {
+        var user = JSON.parse(localStorage.getItem('user'));
+
+        if (user != null) {
+            var accessToken = user.jwt_token;
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+            axios.post(
+                'https://akademia108.pl/api/social-app/post/latest',
+                { 'headers': headers })
+
+                .then(response => {
+
+                    //DO ZMIANY
+                    //- ma pobrać 10 ostatnich postów użytkownika i użytkowników których śledzi
+                    //- request ma być wysyłany z tokenem, żeby wiadomo było kto
+                    //  followuje i id usera którego followujemy
+                    //- ma też pojawić się okienko do pisania posta
+
                     for (let entry = 0; entry < 10; entry++) {
 
                         var nodeLi = document.createElement("li");
@@ -96,31 +137,38 @@ function Home() {
                         nodeDiv.appendChild(nodeContent);
 
                         nodeLi.appendChild(nodeDiv);
-
-                        document.getElementById('posts-list').appendChild(nodeLi);
-                        console.log(response.data[entry]);
                     }
-                }
-            }).catch(error => {
-                console.log("Błąd: ");
-                console.error(error);
-            })
+                }).catch(error => {
+                    console.log("Error: ");
+                    console.error(error);
+                })
+        }
+        else {
+
+            //- ma pobrać 10 ogólnie ostatnich postów
+
+        }
     }
 
     return (
         <div className="outer-container">
+            <div id="TTL">
+                <p id="parTTL">Time left till logout: </p>
+                <input value={ttlValue} type="text" id="countdownInp" />
+            </div>
+            <div id="add-message-div" className="hidden">
+                <textarea placeholder="Write something here"></textarea>
+                <button onClick={handleAddPostButton}>Add post</button>
+            </div>
+
             <div className="list-container">
                 <div id="add-entry-div"></div>
-                <button onClick={handleFeedVisibility}>Show feed</button>
                 <ul id="posts-list"></ul>
             </div>
-            {/* <img src="img/preloader1.gif" id="preloader"></img> */}
-            <script src="infiniteScroll.js"></script>
+            <button className="btn" onClick={handleButtonLoadMore}>Load more feed</button>
         </div>
     )
-
-
-
 }
+
 
 export default Home;

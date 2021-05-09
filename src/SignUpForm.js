@@ -1,14 +1,66 @@
 import React, { useState } from 'react';
 import './SignUpForm.css';
+import axios from 'axios';
 
-function SignUpForm({ handleUserSignup, error }) {
+function SignUpForm() {
 
     const [details, setDetails] = useState({ username: "", password: "", email: "" })
+    const [newUser, setNewUser] = useState({ id: "", name: "", email: "", password: "" });
+    const [error, setError] = useState("");
 
     const submitHandler = e => {
         e.preventDefault();
 
         handleUserSignup(details);
+    }
+
+    const handleUserSignup = details => {
+
+        let newUser = {
+            username: details.username,
+            password: details.password,
+            email: details.email
+        };
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+
+        axios.post(
+            'https://akademia108.pl/api/social-app/user/signup',
+            {
+                'username': details.username,
+                'password': details.password,
+                'email': details.email
+            },
+            { 'headers': headers })
+            .then(response => {
+                if (response.data.signedup === false) {
+                    if (response.data.message.username !== undefined && response.data.message.email !== undefined) {
+                        setError(`${response.data.message.username} ${response.data.message.email}`);
+                    }
+                    else if (response.data.message.username !== undefined) {
+                        setError(`${response.data.message.username} Please select another one`);
+                    }
+                    else if (response.data.message.email !== undefined) {
+                        setError(`${response.data.message.email} Please select another one`);
+                    }
+                }
+                else {
+                    setNewUser({
+                        username: details.username,
+                        password: details.password,
+                        email: details.email
+                    })
+                    setError("");
+                    console.log(`Użytkownik ${newUser.username} utworzony.`);
+                    console.log(response.data);
+                }
+            }).catch(error => {
+                console.log("Error: ");
+                console.error(error);
+            })
     }
 
     const validateUsername = (event) => {
@@ -177,47 +229,56 @@ function SignUpForm({ handleUserSignup, error }) {
 
     return (
         <div className="outer-container">
-            <form className="form" id="create-account-form" onSubmit={submitHandler}>
-                <div className="form-inner">
-                    <h2>Utwórz konto</h2>
-                    {(error !== "") ? ( <div className="error">{error}</div> ) : ""}
-                    <input type="text" onInput={validateUsername} onFocus={focusUsername} onBlur={blurUsername} onChange={e => setDetails({...details, username: e.target.value})} value={details.username} id="username" placeholder="Nazwa użytkownika" required /><br />
-                    <input type="e-mail" onInput={validateEmail} onFocus={focusEmail} onBlur={blurEmail} onChange={e => setDetails({...details, email: e.target.value})} value={details.email} id="email" placeholder="Adres e-mail" required /><br />
-                    <input type="password" onInput={validatePsw} onFocus={focusPsw} onBlur={blurPsw} onChange={e => setDetails({...details, password: e.target.value})} value={details.password} id="password" placeholder="Hasło" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Musi zawierać minimum 6 znaków, w tym przynajmniej 1 cyfrę i 1 znak specjalny" required /><br />
-                    <input type="password" onInput={validatePswConfirm} onFocus={focusPswConfirm} onBlur={blurPswConfirm} id="password-confirm" placeholder="Potwierdź hasło" title="Musi być takie samo jak hasło powyżej." required /><br />
-                    <input type="submit" value="Załóż konto" />
-                    <p className="no-account">Masz już konto? <br /> Zaloguj się <a href="http://localhost:3000/login">tutaj</a>!</p>
+            {(newUser.username != null) ? (
+                <div className="welcome">
+                    <h2>Witaj, <span>{newUser.username}</span>! Zostałeś zarejestrowany.
+                Możesz już się zalogować.</h2>
                 </div>
-            </form>
+            ) : (
+                <div>
+                    <form className="form" id="create-account-form" onSubmit={submitHandler}>
+                        <div className="form-inner">
+                            <h2>Utwórz konto</h2>
+                            {(error !== "") ? (<div className="error">{error}</div>) : ""}
+                            <input type="text" onInput={validateUsername} onFocus={focusUsername} onBlur={blurUsername} onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} id="username" placeholder="Nazwa użytkownika" required /><br />
+                            <input type="e-mail" onInput={validateEmail} onFocus={focusEmail} onBlur={blurEmail} onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} id="email" placeholder="Adres e-mail" required /><br />
+                            <input type="password" onInput={validatePsw} onFocus={focusPsw} onBlur={blurPsw} onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} id="password" placeholder="Hasło" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Musi zawierać minimum 6 znaków, w tym przynajmniej 1 cyfrę i 1 znak specjalny" required /><br />
+                            <input type="password" onInput={validatePswConfirm} onFocus={focusPswConfirm} onBlur={blurPswConfirm} id="password-confirm" placeholder="Potwierdź hasło" title="Musi być takie samo jak hasło powyżej." required /><br />
+                            <input type="submit" value="Załóż konto" />
+                            <p className="no-account">Masz już konto? <br /> Zaloguj się <a href="http://localhost:3000/login">tutaj</a>!</p>
+                        </div>
+                    </form>
 
-            <div className="message" id="message-username">
-                <h3>Nazwa użytkownika:</h3>
-                <p id="length-username" className="invalid">Musi zawierać przynajmniej <b>4</b> znaki</p>
-                <p id="space-username" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
-            </div>
+                    <div className="message" id="message-username">
+                        <h3>Nazwa użytkownika:</h3>
+                        <p id="length-username" className="invalid">Musi zawierać przynajmniej <b>4</b> znaki</p>
+                        <p id="space-username" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
+                    </div>
 
-            <div className="message" id="message-email">
-                <h3>Adres e-mail:</h3>
-                <p id="length-email" className="invalid">Nie może być pusty</p>
-                <p id="space-email" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
-                <p id="exists" className="invalid">Taki email nie istnieje</p>
-            </div>
+                    <div className="message" id="message-email">
+                        <h3>Adres e-mail:</h3>
+                        <p id="length-email" className="invalid">Nie może być pusty</p>
+                        <p id="space-email" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
+                        <p id="exists" className="invalid">Taki email nie istnieje</p>
+                    </div>
 
-            <div className="message" id="message-psw">
-                <h3>Hasło musi zawierać:</h3>
-                <p id="letter" className="invalid">Przynajmniej 1 <b>małą</b> literę</p>
-                <p id="capital" className="invalid">Przynajmniej 1 <b>wielką</b> literę</p>
-                <p id="number" className="invalid">Przynajmniej 1 <b>cyfrę</b></p>
-                <p id="character" className="invalid">Przynajmniej 1 <b>ze znaków: ! # @ $ %</b></p>
-                <p id="length-psw" className="invalid">Przynajmniej <b>6 znaków</b></p>
-            </div>
+                    <div className="message" id="message-psw">
+                        <h3>Hasło musi zawierać:</h3>
+                        <p id="letter" className="invalid">Przynajmniej 1 <b>małą</b> literę</p>
+                        <p id="capital" className="invalid">Przynajmniej 1 <b>wielką</b> literę</p>
+                        <p id="number" className="invalid">Przynajmniej 1 <b>cyfrę</b></p>
+                        <p id="character" className="invalid">Przynajmniej 1 <b>ze znaków: ! # @ $ %</b></p>
+                        <p id="length-psw" className="invalid">Przynajmniej <b>6 znaków</b></p>
+                    </div>
 
-            <div className="message" id="message-psw-confirm">
-                <h3>Adres e-mail:</h3>
-                <p id="psw-confirm" className="invalid">Potwierdzenie hasła musi być <b>identyczne</b> jak wybrane hasło.</p>
-            </div>
+                    <div className="message" id="message-psw-confirm">
+                        <h3>Adres e-mail:</h3>
+                        <p id="psw-confirm" className="invalid">Potwierdzenie hasła musi być <b>identyczne</b> jak wybrane hasło.</p>
+                    </div>
+                </div>
+            )}
         </div>
-    );
+    )
 }
 
 export default SignUpForm;
