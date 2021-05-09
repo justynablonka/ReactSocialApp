@@ -228,10 +228,10 @@ function SignUpForm() {
     }
 
     return (
-        <div className="outer-container">
+        <div>
             {(newUser.username != null) ? (
                 <div className="welcome">
-                    <h2>Witaj, <span>{newUser.username}</span>! Zostałeś zarejestrowany.
+                    <h2 className="section-title">Witaj, <span className="span-username">{newUser.username}</span>! <br/>
                 Możesz już się zalogować.</h2>
                 </div>
             ) : (

@@ -21,7 +21,7 @@ function MyProfile() {
                 'https://akademia108.pl/api/social-app/user/profile',
                 { 'headers': headers })
 
-                .then(response => {
+                .then(response => { //NOT WORKING!!!
                     {
                         var myId = document.getElementById('my-id');
                         var myUsername = document.getElementById('my-username');
@@ -50,7 +50,7 @@ function MyProfile() {
 
     return (
         <div>
-            <h2>Your profile</h2>
+            <h2 className="section-title">Your profile</h2>
             <button className="btn" onClick={showMyProfileDetails}>Show details</button>
             <div id="my-profile-div">
                 <p id="my-id"></p>

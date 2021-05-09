@@ -10,7 +10,7 @@ function Home() {
         // handleShowFeed(); //raz, nie co sekundę
 
         let user = JSON.parse(localStorage.getItem('user'));
-        let countdownInp = document.getElementById('countdownInp');
+        let countdownSpan = document.getElementById('countdownSpan');
 
         if (user != null) {
             if (!ttlValue) {
@@ -151,11 +151,17 @@ function Home() {
     }
 
     return (
-        <div className="outer-container">
-            <div id="TTL">
-                <p id="parTTL">Time left till logout: </p>
-                <input value={ttlValue} type="text" id="countdownInp" />
-            </div>
+        <div>
+
+
+{(JSON.parse(localStorage.getItem('user') !== null) ? (
+                      <div id="TTL">
+                      <p id="parTTL">Time left till logout: </p>
+                      <span id="countdownSpan">{ttlValue}</span>
+                  </div>
+        ) : (<p id="altText">Log in to see more feed</p>))}
+
+
             <div id="add-message-div" className="hidden">
                 <textarea placeholder="Write something here"></textarea>
                 <button onClick={handleAddPostButton}>Add post</button>
