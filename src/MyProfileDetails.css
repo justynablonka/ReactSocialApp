@@ -1,0 +1,22 @@
+.user-details-div {
+    margin: 20px;
+}
+
+.user-details-avatar {
+    margin-top: 20px;
+}
+
+h3 {
+    margin: 5px;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.user-details-span {
+    font-size: 16px;
+}
+
+.user-details-span:hover {
+    cursor: text;
+}

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import './Entry.css';
 
 function Entry(props) {
@@ -13,7 +12,6 @@ function Entry(props) {
             </div>
         </li>
     )
-
 }
 
 export default Entry;

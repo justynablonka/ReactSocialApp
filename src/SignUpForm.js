@@ -240,13 +240,13 @@ function SignUpForm() {
                     <div className="form-container">
                         <form className="form" id="create-account-form" onSubmit={submitHandler}>
                             <div className="form-inner">
-                                <h2>Utwórz konto</h2>
+                                <h2>Sign up</h2>
                                 {(error !== "") ? (<div className="error">{error}</div>) : ""}
-                                <input type="text" onInput={validateUsername} onFocus={focusUsername} onBlur={blurUsername} onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} id="username" placeholder="Nazwa użytkownika" required /><br />
-                                <input type="e-mail" onInput={validateEmail} onFocus={focusEmail} onBlur={blurEmail} onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} id="email" placeholder="Adres e-mail" required /><br />
-                                <input type="password" onInput={validatePsw} onFocus={focusPsw} onBlur={blurPsw} onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} id="password" placeholder="Hasło" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Musi zawierać minimum 6 znaków, w tym przynajmniej 1 cyfrę i 1 znak specjalny" required /><br />
-                                <input type="password" onInput={validatePswConfirm} onFocus={focusPswConfirm} onBlur={blurPswConfirm} id="password-confirm" placeholder="Potwierdź hasło" title="Musi być takie samo jak hasło powyżej." required /><br />
-                                <input type="submit" value="Załóż konto" />
+                                <input type="text" onInput={validateUsername} onFocus={focusUsername} onBlur={blurUsername} onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} id="username" placeholder="Username" required /><br />
+                                <input type="e-mail" onInput={validateEmail} onFocus={focusEmail} onBlur={blurEmail} onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} id="email" placeholder="E-mail address" required /><br />
+                                <input type="password" onInput={validatePsw} onFocus={focusPsw} onBlur={blurPsw} onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} id="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Musi zawierać minimum 6 znaków, w tym at least 1 cyfrę i 1 znak specjalny" required /><br />
+                                <input type="password" onInput={validatePswConfirm} onFocus={focusPswConfirm} onBlur={blurPswConfirm} id="password-confirm" placeholder="Confirm password" title="Musi być takie samo jak Password powyżej." required /><br />
+                                <input type="submit" value="Create an account" />
                                 <p className="no-account">Got an account? <br /> Log in <a href="http://localhost:3000/login">here</a>!</p>
                             </div>
                         </form>
@@ -254,30 +254,30 @@ function SignUpForm() {
 
                     <div className="messages-container">
                         <div className="message" id="message-username">
-                            <h3>Nazwa użytkownika:</h3>
-                            <p id="length-username" className="invalid">Musi zawierać przynajmniej <b>4</b> znaki</p>
-                            <p id="space-username" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
+                            <h3>Username:</h3>
+                            <p id="length-username" className="invalid">has to consist of at least <b>4</b> characters</p>
+                            <p id="space-username" className="invalid"><b>cannot</b> contain <b>spaces</b></p>
                         </div>
 
                         <div className="message" id="message-email">
-                            <h3>Adres e-mail:</h3>
-                            <p id="length-email" className="invalid">Nie może być pusty</p>
-                            <p id="space-email" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
-                            <p id="exists" className="invalid">Taki email nie istnieje</p>
+                            <h3>E-mail address:</h3>
+                            <p id="length-email" className="invalid">cannot be empty</p>
+                            <p id="space-email" className="invalid"><b>cannot</b> contain <b>spaces</b></p>
+                            <p id="exists" className="invalid">chosen e-mail address does not exist</p>
                         </div>
 
                         <div className="message" id="message-psw">
-                            <h3>Hasło musi zawierać:</h3>
-                            <p id="letter" className="invalid">Przynajmniej 1 <b>małą</b> literę</p>
-                            <p id="capital" className="invalid">Przynajmniej 1 <b>wielką</b> literę</p>
-                            <p id="number" className="invalid">Przynajmniej 1 <b>cyfrę</b></p>
-                            <p id="character" className="invalid">Przynajmniej 1 <b>ze znaków: ! # @ $ %</b></p>
-                            <p id="length-psw" className="invalid">Przynajmniej <b>6 znaków</b></p>
+                            <h3>Password has to contain:</h3>
+                            <p id="letter" className="invalid">at least 1 <b>lowercase</b> letter</p>
+                            <p id="capital" className="invalid">at least 1 <b>uppercase</b> letter</p>
+                            <p id="number" className="invalid">at least 1 <b>digit</b></p>
+                            <p id="character" className="invalid">at least 1 <b>of these symbols: ! # @ $ %</b></p>
+                            <p id="length-psw" className="invalid">at least <b>6 characters</b></p>
                         </div>
 
                         <div className="message" id="message-psw-confirm">
-                            <h3>Adres e-mail:</h3>
-                            <p id="psw-confirm" className="invalid">Potwierdzenie hasła musi być <b>identyczne</b> jak wybrane hasło.</p>
+                            <h3>Password confirmation:</h3>
+                            <p id="psw-confirm" className="invalid"> has to be <b>identical</b> as the chosen password.</p>
                         </div>
                     </div>
                 </div>

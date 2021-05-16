@@ -31,8 +31,6 @@ function EntryManager() {
                 { 'headers': headers })
 
                 .then(response => {
-                    console.log(response);
-
                     for (let entry of response.data) {
 
                         let key = entry.id;
@@ -48,7 +46,7 @@ function EntryManager() {
                 })
         } else { }
 
-        return entries
+        return entries;
     };
 
     return (

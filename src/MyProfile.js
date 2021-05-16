@@ -1,10 +1,15 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import './MyProfile.css';
+import MyProfileDetails from './MyProfileDetails';
 
 function MyProfile() {
+
+    useEffect(() => {
+        showMyProfileDetails();
+    }, []);
+
+    const [details, setDetails] = useState([]);
     let user = JSON.parse(localStorage.getItem('user'));
 
     const showMyProfileDetails = () => {
@@ -22,34 +27,30 @@ function MyProfile() {
                 { 'headers': headers })
 
                 .then(response => {
-                    {
-                        //uzupełnić
-                        console.log(response.data);
-                    }
+                    console.log(response.data);
+                    let id = response.data.id;
+                    let avatar_url = response.data.avatar_url;
+                    let username = response.data.username;
+                    let email = response.data.email;
+                    let newDetails = <MyProfileDetails key={id} avatar_url={avatar_url} username={username} email={email} />;
+
+                    setDetails(oldDetails => [...oldDetails, newDetails]);
                 }).catch(error => {
                     console.log("Error: ");
                     console.error(error);
                 })
         }
-    }
+
+        return details;
+    };
 
     return (
         <div>
             {(JSON.parse(localStorage.getItem('user') !== null) ? (
                 <div>
                     <h2 className="section-title">Your profile</h2>
-                    <button className="btn" onClick={showMyProfileDetails}>Show details</button>
                     <div id="my-profile-div">
-                        <h3>Your id:</h3>
-                        <p id="my-id"/>
-                        <h3>Your username:</h3>
-                        <p id="my-username"/>
-                        <h3>Your e-mail:</h3>
-                        <p id="my-email"/>
-                        <h3>You created your account on:</h3>
-                        <p id="my-createdAt"/>
-                        <h3>You last updated your account on:</h3>
-                        <p id="my-updatedAt"/>
+                        {details}
                     </div>
                 </div>
             ) : (
@@ -61,4 +62,4 @@ function MyProfile() {
     )
 }
 
-export default MyProfile;
+export default React.memo(MyProfile);
