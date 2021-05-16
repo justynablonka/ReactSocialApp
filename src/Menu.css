@@ -22,18 +22,6 @@
     color: #FE4880;
 }
 
-.visible {
-    display: block;
-}
-
-.hidden {
-    display: none;
-}
-
-.currentLink {
-    color: #FE4880;
-}
-
 /* #collapsible-menu {
     border: none;
 }

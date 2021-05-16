@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -8,52 +8,60 @@ import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import MyProfile from './MyProfile';
 import Footer from './Footer';
+import LoginPopup from './LoginPopup';
 
-function App() {
+function App(props) {
 
-  // const [value, setValue] = useState();
+  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  // const getLocalStorageData = () => {
-  //   let user = localStorage.getItem('user');
-  //   let inp = document.getElementById('inp');
-  //   inp.value = user;
-  // }
+  useEffect(() => {
+    if (currentUser === null) {
+      let timer1 = setTimeout(() => setModalIsOpen(true), 10000);
+      return () => {
+        clearTimeout(timer1);
+      };
+    }
+  }, []);
+
+  const setModalIsOpenToTrue = () => {
+    setModalIsOpen(true)
+  }
+
+  const setModalIsOpenToFalse = () => {
+    setModalIsOpen(false)
+  }
 
   return (
     <div className="App">
 
       <header className="App-header">
         Social App
-        {/* <input value={value} type="text" id="inp" /> */}
-        {/* <button className="btn" onClick={getLocalStorageData}>Get data</button> */}
-
-        {(JSON.parse(localStorage.getItem('user') !== null) ? (
-          <p className="header-p">Witaj, <span id="username-header">{JSON.parse(localStorage.getItem('user')).username}</span>!</p>
-        ) : (<p className="header-p">Witaj!</p>))}
+        {<LoginPopup modalIsOpen={modalIsOpen} setModalIsOpenToFalse={setModalIsOpenToFalse} setModalIsOpenToTrue={setModalIsOpenToTrue}/>}
+        {currentUser && <h1 className="header-p">Welcome, <span id="username-header">{currentUser.username}</span>!</h1>}
       </header>
 
-      <div className="menu">
-        <Menu />
-      </div>
-
-      <div className="main-content">
-        <BrowserRouter>
+      <BrowserRouter>
+        <div className="menu">
+          <Menu userLoggedIn={currentUser} updateUser={setCurrentUser}/>
+        </div>
+        <div className="main-content">
           <Switch>
-            <Route path="/home">
+            <Route exact path="/">
               <Home />
             </Route>
             <Route path="/signup">
               <SignUpForm />
             </Route>
             <Route path="/login">
-              <LoginForm />
+              <LoginForm updateUser={setCurrentUser} />
             </Route>
             <Route path="/my_profile">
               <MyProfile />
             </Route>
           </Switch>
-        </BrowserRouter>
-      </div>
+        </div>
+      </BrowserRouter>
 
       <div className="main-footer">
         <Footer />

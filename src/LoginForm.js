@@ -3,9 +3,9 @@ import './LoginForm.css';
 import axios from 'axios';
 import { Redirect } from 'react-router';
 
-function LoginForm() {
+function LoginForm(props) {
 
-    const [details, setDetails] = useState('');
+    const [details, setDetails] = useState({username: '', password: ''});
     const [loginError, setLoginError] = useState();
 
     const submitHandler = e => {
@@ -36,7 +36,7 @@ function LoginForm() {
 
                         localStorage.setItem('user', JSON.stringify(response.data));
                         setLoginError("");
-                        window.location.reload(); //przeładowanie strony żeby menu się zmieniło
+                        props.updateUser(response.data);
 
                         console.log(`User logged in: ${localStorage.user}`);
                     } else {
@@ -51,8 +51,8 @@ function LoginForm() {
 
     return (
         <div>
-            {(localStorage.user != undefined && loginError === "") ? (
-                <Redirect to="/home" />
+            {(localStorage.user !== undefined && loginError === "") ? (
+                <Redirect to="/" />
             ) : (
                 <form className="form" id="login-form" onSubmit={submitHandler}>
                     <div className="form-inner">

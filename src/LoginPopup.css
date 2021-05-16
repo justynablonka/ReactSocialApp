@@ -1,0 +1,9 @@
+.popup {
+    display: block;
+    position: absolute;
+    right: 50vw;
+    top: 50px;
+    width: 200px;
+    height: 300px;
+    z-index: 30;
+}

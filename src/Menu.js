@@ -1,65 +1,69 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import './Menu.css';
+import axios from 'axios';
+import { NavLink } from "react-router-dom";
 
-function Menu() {
+function Menu(props) {
 
-    useEffect(() => {
-        handleMenuVisibility();
-    },[]);
+    const [isOpen, setOpen] = useState(false);
 
-    const handleUserLogout = () => {
+    const handleUserLogout = (event) => {
+
+        if (props.userLoggedIn != null) {
+
+            let accessToken = props.userLoggedIn.jwt_token;
+            console.log(accessToken);
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+            axios.post(
+                'https://akademia108.pl/api/social-app/user/logout',
+                {},
+                {'headers': headers })
+                .then(response => {
+                    console.log(response);
+                    props.updateUser(null);
+
+                }).catch(error => {
+                    console.log("Error: ");
+                    console.error(error);
+                })
+        }
         localStorage.clear();
-        handleMenuVisibility();
-    }
-
-    const handleMenuVisibility = () => {
-
-        var user = localStorage.getItem('user');
-
-        var login = document.getElementById("link-login");
-        var signup = document.getElementById("link-signup");
-        var myProfile = document.getElementById("link-my-profile");
-        var logout = document.getElementById("link-logout");
-
-        if (user !== null) {
-
-            login.classList.remove("visible");
-            login.classList.add("hidden");
-            signup.classList.remove("visible");
-            signup.classList.add("hidden");
-
-            myProfile.classList.remove("hidden");
-            myProfile.classList.add("visible");
-            logout.classList.remove("hidden");
-            logout.classList.add("visible");
-        }
-        else {
-            login.classList.remove("hidden");
-            login.classList.add("visible");
-            signup.classList.remove("hidden");
-            signup.classList.add("visible");
-
-            myProfile.classList.remove("visible");
-            myProfile.classList.add("hidden");
-            logout.classList.remove("visible");
-            logout.classList.add("hidden");
-        }
     }
 
     return (
-        <div>
-            <nav id="main-menu">
-                {/* <label for="collapsible-menu">Menu</label>
-                <input type="checkbox" id="collapsible-menu" /> */}
-                <ul id="main-menu-list">
-                    <li id="link-home" className="visible"><a href="http://localhost:3000/home">Home</a></li>
-                    <li id="link-login" className="visible"><a href="http://localhost:3000/login">Log in</a></li>
-                    <li id="link-signup" className="visible"><a href="http://localhost:3000/signup">Sign up</a></li>
-                    <li id="link-my-profile" className="hidden"><a href="http://localhost:3000/my_profile">My profile</a></li>
-                    <li id="link-logout" className="hidden"><a href="http://localhost:3000/home" onClick={handleUserLogout}>Logout</a></li>
-                </ul>
-            </nav>
-        </div>
+        <nav id="main-menu" className="navbar is-primary" role="navigation" aria-label="main navigation">
+            <div className="container">
+                <div className="navbar-brand">
+                    <a
+                        role="button"
+                        className={`navbar-burger burger ${isOpen && "is-active"}`}
+                        aria-label="menu"
+                        aria-expanded="false"
+                        onClick={() => setOpen(!isOpen)}
+                    >
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                {props.userLoggedIn && <h1 className="header-p">Welcome, <span id="username-header">{props.userLoggedIn.username}</span>!</h1>}<br />
+                <div className={`navbar-menu ${isOpen && "is-active"}`}>
+                    <div className="navbar-start">
+                        <ul id="main-menu-list">
+                            <li><NavLink className="navbar-item" activeClassName="is-active" to="/" exact>Home</NavLink></li>
+                            {!props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/login">Log in</NavLink></li>}
+                            {!props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/signup">Sign up</NavLink></li>}
+                            {props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/my_profile">My profile</NavLink></li>}
+                            {props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/" onClick={handleUserLogout}>Logout</NavLink></li>}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
     );
 }
 

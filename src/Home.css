@@ -1,5 +1,5 @@
 .list-container {
-    max-width: 70%;
+    max-width: 60%;
     display: inline-block;
 }
 
@@ -52,4 +52,16 @@ div .visible {
 
 #parTTL, #altText {
     padding-top: 30px;
+    text-align: center;
+}
+
+#preloader {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+textarea {
+    margin: 15px;
 }

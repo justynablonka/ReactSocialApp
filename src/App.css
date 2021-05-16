@@ -29,6 +29,7 @@
   justify-content: center;
   flex-basis: 100%;
   min-height: 100vh;
+  display: relative;
 }
 
 .btn {
@@ -37,6 +38,11 @@
   height: 50px;
   border: black solid 1px;
   font-weight: 300;
+}
+
+.modal-div {
+  display: flex;
+  justify-content: center;
 }
 
 .btn:hover {

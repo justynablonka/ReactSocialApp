@@ -64,12 +64,12 @@ function SignUpForm() {
     }
 
     const validateUsername = (event) => {
-        var myInput = event.target;
-        var space = document.getElementById("space-username");
-        var length = document.getElementById("length-username");
+        let myInput = event.target;
+        let space = document.getElementById("space-username");
+        let length = document.getElementById("length-username");
 
         // Validate spaces
-        var spaces = /[ ]/g;
+        let spaces = /[ ]/g;
         if (!myInput.value.match(spaces) && myInput.value.length >= 1) {
             space.classList.remove("invalid");
             space.classList.add("valid");
@@ -89,13 +89,13 @@ function SignUpForm() {
     }
 
     const validateEmail = (event) => {
-        var myInput = event.target;
-        var length = document.getElementById("length-email");
-        var space = document.getElementById("space-email");
-        var exists = document.getElementById("exists");
+        let myInput = event.target;
+        let length = document.getElementById("length-email");
+        let space = document.getElementById("space-email");
+        let exists = document.getElementById("exists");
 
         // Validate spaces
-        var spaces = /[ ]/g;
+        let spaces = /[ ]/g;
         if (myInput.value.length > 0 && !myInput.value.match(spaces)) {
             space.classList.remove("invalid");
             space.classList.add("valid");
@@ -124,15 +124,15 @@ function SignUpForm() {
     }
 
     const validatePsw = (event) => {
-        var myInput = event.target;
-        var letter = document.getElementById("letter");
-        var capital = document.getElementById("capital");
-        var number = document.getElementById("number");
-        var character = document.getElementById("character");
-        var length = document.getElementById("length-psw");
+        let myInput = event.target;
+        let letter = document.getElementById("letter");
+        let capital = document.getElementById("capital");
+        let number = document.getElementById("number");
+        let character = document.getElementById("character");
+        let length = document.getElementById("length-psw");
 
         // Validate lowercase letters
-        var lowerCaseLetters = /[a-z]/g;
+        let lowerCaseLetters = /[a-z]/g;
         if (myInput.value.match(lowerCaseLetters)) {
             letter.classList.remove("invalid");
             letter.classList.add("valid");
@@ -142,7 +142,7 @@ function SignUpForm() {
         }
 
         // Validate capital letters
-        var upperCaseLetters = /[A-Z]/g;
+        let upperCaseLetters = /[A-Z]/g;
         if (myInput.value.match(upperCaseLetters)) {
             capital.classList.remove("invalid");
             capital.classList.add("valid");
@@ -152,7 +152,7 @@ function SignUpForm() {
         }
 
         // Validate numbers
-        var numbers = /[0-9]/g;
+        let numbers = /[0-9]/g;
         if (myInput.value.match(numbers)) {
             number.classList.remove("invalid");
             number.classList.add("valid");
@@ -162,7 +162,7 @@ function SignUpForm() {
         }
 
         // Validate special charaters
-        var characters = /[!@#$%]/g;
+        let characters = /[!@#$%]/g;
         if (myInput.value.match(characters)) {
             character.classList.remove("invalid");
             character.classList.add("valid");
@@ -182,8 +182,8 @@ function SignUpForm() {
     }
 
     const validatePswConfirm = (event) => {
-        var myInput = event.target;
-        var pswConfirm = document.getElementById("psw-confirm");
+        let myInput = event.target;
+        let pswConfirm = document.getElementById("psw-confirm");
 
         // Validate if passwords are identical
         if (myInput.value === document.getElementById("password").value) {
@@ -228,52 +228,57 @@ function SignUpForm() {
     }
 
     return (
-        <div>
+        <div className="outer-container">
             {(newUser.username != null) ? (
                 <div className="welcome">
-                    <h2 className="section-title">Witaj, <span className="span-username">{newUser.username}</span>! <br/>
-                Możesz już się zalogować.</h2>
+                    <h2 className="section-title">Welcome, <span className="span-username">{newUser.username}</span>! <br />
+                You can log in now.</h2>
                 </div>
             ) : (
-                <div>
-                    <form className="form" id="create-account-form" onSubmit={submitHandler}>
-                        <div className="form-inner">
-                            <h2>Utwórz konto</h2>
-                            {(error !== "") ? (<div className="error">{error}</div>) : ""}
-                            <input type="text" onInput={validateUsername} onFocus={focusUsername} onBlur={blurUsername} onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} id="username" placeholder="Nazwa użytkownika" required /><br />
-                            <input type="e-mail" onInput={validateEmail} onFocus={focusEmail} onBlur={blurEmail} onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} id="email" placeholder="Adres e-mail" required /><br />
-                            <input type="password" onInput={validatePsw} onFocus={focusPsw} onBlur={blurPsw} onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} id="password" placeholder="Hasło" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Musi zawierać minimum 6 znaków, w tym przynajmniej 1 cyfrę i 1 znak specjalny" required /><br />
-                            <input type="password" onInput={validatePswConfirm} onFocus={focusPswConfirm} onBlur={blurPswConfirm} id="password-confirm" placeholder="Potwierdź hasło" title="Musi być takie samo jak hasło powyżej." required /><br />
-                            <input type="submit" value="Załóż konto" />
-                            <p className="no-account">Masz już konto? <br /> Zaloguj się <a href="http://localhost:3000/login">tutaj</a>!</p>
+                <div className="flex-container">
+                    
+                    <div className="form-container">
+                        <form className="form" id="create-account-form" onSubmit={submitHandler}>
+                            <div className="form-inner">
+                                <h2>Utwórz konto</h2>
+                                {(error !== "") ? (<div className="error">{error}</div>) : ""}
+                                <input type="text" onInput={validateUsername} onFocus={focusUsername} onBlur={blurUsername} onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} id="username" placeholder="Nazwa użytkownika" required /><br />
+                                <input type="e-mail" onInput={validateEmail} onFocus={focusEmail} onBlur={blurEmail} onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} id="email" placeholder="Adres e-mail" required /><br />
+                                <input type="password" onInput={validatePsw} onFocus={focusPsw} onBlur={blurPsw} onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} id="password" placeholder="Hasło" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Musi zawierać minimum 6 znaków, w tym przynajmniej 1 cyfrę i 1 znak specjalny" required /><br />
+                                <input type="password" onInput={validatePswConfirm} onFocus={focusPswConfirm} onBlur={blurPswConfirm} id="password-confirm" placeholder="Potwierdź hasło" title="Musi być takie samo jak hasło powyżej." required /><br />
+                                <input type="submit" value="Załóż konto" />
+                                <p className="no-account">Got an account? <br /> Log in <a href="http://localhost:3000/login">here</a>!</p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div className="messages-container">
+                        <div className="message" id="message-username">
+                            <h3>Nazwa użytkownika:</h3>
+                            <p id="length-username" className="invalid">Musi zawierać przynajmniej <b>4</b> znaki</p>
+                            <p id="space-username" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
                         </div>
-                    </form>
 
-                    <div className="message" id="message-username">
-                        <h3>Nazwa użytkownika:</h3>
-                        <p id="length-username" className="invalid">Musi zawierać przynajmniej <b>4</b> znaki</p>
-                        <p id="space-username" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
-                    </div>
+                        <div className="message" id="message-email">
+                            <h3>Adres e-mail:</h3>
+                            <p id="length-email" className="invalid">Nie może być pusty</p>
+                            <p id="space-email" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
+                            <p id="exists" className="invalid">Taki email nie istnieje</p>
+                        </div>
 
-                    <div className="message" id="message-email">
-                        <h3>Adres e-mail:</h3>
-                        <p id="length-email" className="invalid">Nie może być pusty</p>
-                        <p id="space-email" className="invalid"><b>Nie może</b> zawierać <b>spacji</b></p>
-                        <p id="exists" className="invalid">Taki email nie istnieje</p>
-                    </div>
+                        <div className="message" id="message-psw">
+                            <h3>Hasło musi zawierać:</h3>
+                            <p id="letter" className="invalid">Przynajmniej 1 <b>małą</b> literę</p>
+                            <p id="capital" className="invalid">Przynajmniej 1 <b>wielką</b> literę</p>
+                            <p id="number" className="invalid">Przynajmniej 1 <b>cyfrę</b></p>
+                            <p id="character" className="invalid">Przynajmniej 1 <b>ze znaków: ! # @ $ %</b></p>
+                            <p id="length-psw" className="invalid">Przynajmniej <b>6 znaków</b></p>
+                        </div>
 
-                    <div className="message" id="message-psw">
-                        <h3>Hasło musi zawierać:</h3>
-                        <p id="letter" className="invalid">Przynajmniej 1 <b>małą</b> literę</p>
-                        <p id="capital" className="invalid">Przynajmniej 1 <b>wielką</b> literę</p>
-                        <p id="number" className="invalid">Przynajmniej 1 <b>cyfrę</b></p>
-                        <p id="character" className="invalid">Przynajmniej 1 <b>ze znaków: ! # @ $ %</b></p>
-                        <p id="length-psw" className="invalid">Przynajmniej <b>6 znaków</b></p>
-                    </div>
-
-                    <div className="message" id="message-psw-confirm">
-                        <h3>Adres e-mail:</h3>
-                        <p id="psw-confirm" className="invalid">Potwierdzenie hasła musi być <b>identyczne</b> jak wybrane hasło.</p>
+                        <div className="message" id="message-psw-confirm">
+                            <h3>Adres e-mail:</h3>
+                            <p id="psw-confirm" className="invalid">Potwierdzenie hasła musi być <b>identyczne</b> jak wybrane hasło.</p>
+                        </div>
                     </div>
                 </div>
             )}

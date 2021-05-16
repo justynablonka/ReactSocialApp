@@ -1,29 +1,38 @@
+.outer-container {
+  position: relative;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+  
+  .form-container {
+    flex-basis: 80%;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+  }
+  
+  .messages-container {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  
   .message {
-    display: block;
+    display: none;
     max-width: 280px;
     height: 180px;
     color: #000;
-    position: relative;
     padding: 10px 10px 10px 20px;
-    border: #aaa8a8 solid 1px;
-    border-radius: 4px;
+    margin-left: 20px;
+    /* border: #aaa8a8 solid 1px;
+    border-radius: 4px; */
   }
-  
-  /* #message-username {
-    margin-top: 150px;
-  }
-  
-  #message-email {
-    margin-top: 190px;
-  }
-  
-  #message-psw {
-  margin-top: 230px;
-  }
-  
-  #message-psw-confirm {
-    margin-top: 270px;
-  } */
   
   .message p {
     font-size: 12px;
@@ -83,9 +92,6 @@
     color: #FE4880;
   }
   
-
-
-
 #create-account-form {
     display: block;
     position: relative;
@@ -148,7 +154,7 @@
       transition: 0.4s;
   }
 
-  #create-account-form .form-inner .form-group input:focus {
+  #create-account-form .form-inner input:focus {
       box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
   }
   
