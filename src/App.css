@@ -74,3 +74,7 @@
 .section-title {
   padding-top: 30px;
 }
+
+li {
+  list-style: none;
+}

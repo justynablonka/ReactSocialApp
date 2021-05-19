@@ -83,7 +83,7 @@ function EntryManager(props) {
                 {entries}
                 {entries.map(listItem => <li className="list-group-item">{listItem}</li>)}
             </ul>
-            {isFetching && 'Fetching more list items...'}
+            {isFetching && <img src="img/preloader1.gif" alt="preloader_gif" />}
         </>
 
     );
