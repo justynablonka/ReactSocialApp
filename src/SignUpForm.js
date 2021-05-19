@@ -242,10 +242,10 @@ function SignUpForm() {
                             <div className="form-inner">
                                 <h2>Sign up</h2>
                                 {(error !== "") ? (<div className="error">{error}</div>) : ""}
-                                <input type="text" onInput={validateUsername} onFocus={focusUsername} onBlur={blurUsername} onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} id="username" placeholder="Username" required /><br />
-                                <input type="e-mail" onInput={validateEmail} onFocus={focusEmail} onBlur={blurEmail} onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} id="email" placeholder="E-mail address" required /><br />
-                                <input type="password" onInput={validatePsw} onFocus={focusPsw} onBlur={blurPsw} onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} id="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Musi zawierać minimum 6 znaków, w tym at least 1 cyfrę i 1 znak specjalny" required /><br />
-                                <input type="password" onInput={validatePswConfirm} onFocus={focusPswConfirm} onBlur={blurPswConfirm} id="password-confirm" placeholder="Confirm password" title="Musi być takie samo jak Password powyżej." required /><br />
+                                <input type="text" onInput={validateUsername} onFocus={focusUsername} onBlur={blurUsername} onChange={e => setDetails({ ...details, username: e.target.value })} value={details.username} id="username" placeholder="Username" title="Fill in this field." required /><br />
+                                <input type="e-mail" onInput={validateEmail} onFocus={focusEmail} onBlur={blurEmail} onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} id="email" placeholder="E-mail address" title="Fill in this field." required /><br />
+                                <input type="password" onInput={validatePsw} onFocus={focusPsw} onBlur={blurPsw} onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password} id="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Must consist of at least 6 characters, including at least 1 digit and 1 symbol" required /><br />
+                                <input type="password" onInput={validatePswConfirm} onFocus={focusPswConfirm} onBlur={blurPswConfirm} id="password-confirm" placeholder="Confirm password" title="Must be the same as the password above." required /><br />
                                 <input type="submit" value="Create an account" />
                                 <p className="no-account">Got an account? <br /> Log in <a href="http://localhost:3000/login">here</a>!</p>
                             </div>

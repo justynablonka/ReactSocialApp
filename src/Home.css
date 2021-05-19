@@ -1,57 +1,18 @@
 .list-container {
-    max-width: 60%;
-    display: inline-block;
+    max-width: 80%;
+    padding-left: 260px;
+    padding-right: 100px;
+    /* margin-left: 250px; */
+    
 }
 
-.list-container li {
-    text-align: center;
-    text-align: left;
-    list-style: none;
-    padding: 10px 10px;
-}
-
-.list-container li div {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    margin: 10px 0px;
-    background-color: rgb(214, 205, 205);
-    border: rgba(221, 219, 217, 0.459) solid 1px;
-    border-radius: 10px;
-    transition: 0.4s;
-}
-
-.list-container li div:hover {
-    background-color: rgb(167, 152, 140);
-}
-
-img {
-    border-radius: 50%;
-    max-width: 40px;
-    max-height: 40px;
-}
-
-span {
-    margin-left: 15px;
-    margin-right: 20px;
-    font-weight: lighter;
-}
-
-span:hover,
-img:hover {
-    cursor: pointer;
-}
-
-div .hidden {
-    display: none;
-}
-
-div .visible {
-    display: block;
-}
-
-#parTTL, #altText {
+#parTTL {
     padding-top: 30px;
+    text-align: center;
+}
+
+#altText {
+    padding: 30px 0px;
     text-align: center;
 }
 
@@ -64,9 +25,12 @@ div .visible {
 
 textarea {
     border: 1px solid orange;
-    margin: 15px;
+    resize: none;
+    overflow: auto;
+    margin-top: 30px;
     padding: 10px;
-    width: 200px;
+    width: 60%;
     height: 100px;
     border-radius: 4px;
+    outline: none;
 }

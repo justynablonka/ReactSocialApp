@@ -6,6 +6,7 @@ import EntryManager from './EntryManager';
 function Home() {
 
     const [ttlValue, setTtlValue] = useState();
+    const [entryContent, setEntryContent] = useState({ content: "" });
 
     useEffect(() => {
 
@@ -30,6 +31,7 @@ function Home() {
 
         if (user != null) {
             let accessToken = user.jwt_token;
+            console.log(entryContent);
 
             const headers = {
                 'Content-Type': 'application/json',
@@ -38,10 +40,12 @@ function Home() {
             }
             axios.post(
                 'https://akademia108.pl/api/social-app/post/add',
+                { content: entryContent.content },
                 { 'headers': headers })
 
                 .then(response => {
                     console.log(response.data);
+                    console.log(`Entry content: ${entryContent}`);
                 })
 
         }
@@ -56,11 +60,11 @@ function Home() {
                         <span id="countdownSpan">{ttlValue}</span><br />
                     </div>
                     <div id="add-message-div">
-                        <textarea placeholder="Write something here" id="your-entry" /> <br />
+                        <textarea placeholder="Write something here" id="your-entry" onChange={e => setEntryContent({ ...entryContent, content: e.target.value })} value={entryContent.content}/> <br />
                         <button className="btn" onClick={handleAddPostButton}>Add post</button>
                     </div>
                 </div>
-            ) : (<p id="altText">Log in to see more feed</p>))}
+            ) : (<p id="altText">Log in to see more feed and add posts!</p>))}
 
             <div className="list-container">
                 <EntryManager />

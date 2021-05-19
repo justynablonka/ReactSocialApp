@@ -12,7 +12,6 @@ function Menu(props) {
         if (props.userLoggedIn != null) {
 
             let accessToken = props.userLoggedIn.jwt_token;
-            console.log(accessToken);
             const headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -23,7 +22,6 @@ function Menu(props) {
                 {},
                 {'headers': headers })
                 .then(response => {
-                    console.log(response);
                     props.updateUser(null);
 
                 }).catch(error => {
@@ -50,7 +48,7 @@ function Menu(props) {
                         <span aria-hidden="true"></span>
                     </a>
                 </div>
-                {props.userLoggedIn && <h1 className="header-p">Welcome, <span id="username-header">{props.userLoggedIn.username}</span>!</h1>}<br />
+                {props.userLoggedIn && <h1 className="header-p" id="header-p-menu">Welcome, <span id="username-header">{props.userLoggedIn.username}</span>!</h1>}<br />
                 <div className={`navbar-menu ${isOpen && "is-active"}`}>
                     <div className="navbar-start">
                         <ul id="main-menu-list">
@@ -58,7 +56,7 @@ function Menu(props) {
                             {!props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/login">Log in</NavLink></li>}
                             {!props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/signup">Sign up</NavLink></li>}
                             {props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/my_profile">My profile</NavLink></li>}
-                            {props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/" onClick={handleUserLogout}>Logout</NavLink></li>}
+                            {props.userLoggedIn && <li><NavLink className="navbar-item" activeClassName="is-active" to="/login" onClick={handleUserLogout}>Logout</NavLink></li>}
                         </ul>
                     </div>
                 </div>

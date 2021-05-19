@@ -1,22 +1,43 @@
 .user-details-div {
-    margin: 20px;
+    display: flex;
+    margin: 40px 0px;
+    padding: 10px;
 }
 
 .user-details-avatar {
     margin-top: 20px;
 }
 
+.user-text-data {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    justify-content: center;
+}
+
 h3 {
     margin: 5px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     text-align: left;
 }
 
 .user-details-span {
     font-size: 16px;
+    font-style: italic;
+    margin-left: 5px;
 }
 
 .user-details-span:hover {
+    cursor: text;
+}
+
+.user-details-avatar {
+    margin: 10px;
+    width: 120px;
+    height: auto;
+}
+
+.user-details-avatar:hover {
     cursor: text;
 }

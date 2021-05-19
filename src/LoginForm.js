@@ -36,6 +36,7 @@ function LoginForm(props) {
 
                         localStorage.setItem('user', JSON.stringify(response.data));
                         setLoginError("");
+
                         props.updateUser(response.data);
 
                         console.log(`User logged in: ${localStorage.user}`);
@@ -52,7 +53,7 @@ function LoginForm(props) {
     return (
         <div>
             {(localStorage.user !== undefined && loginError === "") ? (
-                <Redirect to="/" />
+                <Redirect exact to="/" />
             ) : (
                 <form className="form" id="login-form" onSubmit={submitHandler}>
                     <div className="form-inner">

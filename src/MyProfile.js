@@ -27,7 +27,6 @@ function MyProfile() {
                 { 'headers': headers })
 
                 .then(response => {
-                    console.log(response.data);
                     let id = response.data.id;
                     let avatar_url = response.data.avatar_url;
                     let username = response.data.username;

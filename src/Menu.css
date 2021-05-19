@@ -1,8 +1,6 @@
 #main-menu {
     width: 100%;
-    margin: 10px 10px;
-    padding: 15px;
-    max-width: 120px;
+    padding: 30px 40px;
 }
 
 #main-menu-list li {
@@ -13,42 +11,11 @@
 
 #main-menu-list li a {
     text-decoration: none;
-    color: #000000;
+    color: #fff;
     transition: 0.4s;
-    font-weight: 700;
+    font-weight: 300;
 }
 
 #main-menu-list li a:hover {
     color: #FE4880;
 }
-
-/* #collapsible-menu {
-    border: none;
-}
-
-#collapsible-menu:checked ~ ul .menu-item {
-    display: block;
-    text-align: right;
-    padding: 10px 0px;
-    margin: 0;
-}
-
-.open-menu {
-    left: 0;
-}
-
-#collapsible-menu,
-label[for="collapsible-menu"] {
-    display: none;
-    position: absolute;
-    top: 200px;
-    left: 200px;
-    transform: rotate(-90deg);
-    border: solid black 1px;
-}
-
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-} */
