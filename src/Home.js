@@ -290,8 +290,8 @@ function Home(props) {
                 let accessToken = user.jwt_token;
                 let newEntries = entries;
                 let followedEntries = newEntries.filter(x => x.userId === userId);
-                let isUserFollowed = followedUsers.includes(x => x == userId);
-                
+                let isUserFollowed = followedUsers.includes(x => x === userId);
+
                 if (isUserFollowed) {
                     const headers = {
                         'Content-Type': 'application/json',
