@@ -4,12 +4,14 @@ import './Home.css';
 import Entries from './Entries';
 import useInfiniteScroll from './useInfiniteScroll';
 import preloader1 from './img/preloader1.gif';
+import RecommendationsManager from './RecommendationsManager';
 
-function Home() {
+function Home(props) {
 
     const [entryContent, setEntryContent] = useState({ content: "" });
     const [entries, setEntries] = useState([]);
     const [followedUsers, setFollowedUsers] = useState([]);
+    const [recommendations, setRecommendations] = useState([]);
     const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
     const [oldestEntryDate, setOldestEntryDate] = useState('');
 
@@ -77,6 +79,41 @@ function Home() {
         }
 
         getData();
+
+        function getFollowRecommendations() {
+            let user = JSON.parse(localStorage.getItem('user'));
+    
+            if (user != null) {
+                let accessToken = user.jwt_token;
+    
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+                axios.post(
+                    'https://akademia108.pl/api/social-app/follows/recommendations',
+                    {},
+                    { 'headers': headers })
+    
+                    .then(response => {
+                        for (let userToFollow of response.data) {
+                            let newRecommendation = {}
+                            newRecommendation.key = userToFollow.id;
+                            newRecommendation.username = userToFollow.username;
+                            newRecommendation.avatar_url = userToFollow.avatar_url;
+                            
+                            setRecommendations(oldRecommendations => [...oldRecommendations, newRecommendation]);
+                        }
+    
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+        };
+
+        getFollowRecommendations();
     }, []);
 
     function fetchMoreListItems() {
@@ -103,8 +140,15 @@ function Home() {
                 { 'headers': headers })
 
                 .then(response => {
-                    console.log(response.data);
-                    console.log(`Entry content: ${entryContent}`);
+                    let newEntry = {};
+                    newEntry.key = response.data.post.id;
+                    newEntry.userId = user.id;
+                    newEntry.username = user.username;
+                    newEntry.content = response.data.post.content;
+                    // newEntry.avatar_url = user.avatar_url;
+                    newEntry.createdAtDate = response.data.post.created_at;
+
+                    setEntries(oldEntries => [newEntry, ...oldEntries]);
                 })
 
         }
@@ -127,7 +171,6 @@ function Home() {
                 { 'headers': headers })
 
                 .then(response => {
-                    // console.log(response.data);
                     for (let entry of response.data) {
                         let newEntry = {};
                         newEntry.key = entry.id;
@@ -163,6 +206,33 @@ function Home() {
                 })
         }
     };
+
+    const handleDeleteClick = (idx) => {
+        return function () {
+            let user = JSON.parse(localStorage.getItem('user'));
+            if (user != null) {
+                let accessToken = user.jwt_token;
+                let entriesToSave = entries.filter(x => x.key !== idx);
+
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+                axios.post(
+                    'https://akademia108.pl/api/social-app/post/delete',
+                    { 'post_id': idx },
+                    { 'headers': headers })
+                    .then(response => {
+                        console.log(response);
+                        setEntries(entriesToSave);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+        }
+    }
 
     const handleLikeClick = (idx) => {
         return function () {
@@ -220,8 +290,9 @@ function Home() {
                 let accessToken = user.jwt_token;
                 let newEntries = entries;
                 let followedEntries = newEntries.filter(x => x.userId === userId);
-
-                if (followedEntries[0].followed) {
+                let isUserFollowed = followedUsers.includes(x => x == userId);
+                
+                if (isUserFollowed) {
                     const headers = {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -238,7 +309,7 @@ function Home() {
                                 followedEntry.followed = false;
                             }
                             setEntries(newEntries);
-                            
+
                             let users = followedUsers.filter(x => x !== userId);
                             setFollowedUsers(users);
                         })
@@ -265,6 +336,8 @@ function Home() {
 
                             setFollowedUsers([...followedUsers, userId]);
 
+                            let newRecommendations = recommendations.filter(x => x.key !== userId);
+                            setRecommendations(newRecommendations);
                         })
                         .catch(error => {
                             console.log(error);
@@ -273,6 +346,7 @@ function Home() {
             }
         }
     }
+
 
     return (
         <div>
@@ -286,8 +360,12 @@ function Home() {
             ) : (<p id="altText">Log in to see more feed and add posts!</p>))}
 
             <div className="list-container">
-                <Entries entries={entries} handleLikeClick={handleLikeClick} handleFollowClick={handleFollowClick}/>
+                <Entries entries={entries} handleLikeClick={handleLikeClick} handleFollowClick={handleFollowClick} handleDeleteClick={handleDeleteClick} />
                 {isFetching && <img src={preloader1} alt="preloader_gif" />}
+            </div>
+
+            <div className="sidebar">
+                {props.currentUser && <RecommendationsManager recommendations={recommendations} handleFollowClick={handleFollowClick}/>}
             </div>
         </div>
     )

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Entry.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 function Entry(props) {
 
@@ -21,7 +21,7 @@ function Entry(props) {
                     </div>
                     <div className="entry-social">
                         <div className="break" />
-                        <button className={"followBtn" + (props.followed ? " followed" : "")} onClick={props.handleFollowClick(props.userId)}>Follow</button>
+                        <button className={"followBtn" + (props.followed ? " followed" : "")} onClick={props.handleFollowClick(props.userId)}>{props.followed ? "Unfollow" : "Follow"}</button>
                     </div>
                 </>)
                 :
@@ -31,6 +31,7 @@ function Entry(props) {
                         <span className="entry-username">{props.username}</span>
                     </div>
                     <div className="entry-social">
+                        <FontAwesomeIcon icon={faTrash} className="deleteBtn" onClick={props.handleDeleteClick(props.idx)} />
                         <div className="break"></div>
                     </div >
                 </>)}

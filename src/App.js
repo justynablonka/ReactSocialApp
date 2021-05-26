@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -9,13 +10,15 @@ import SignUpForm from './SignUpForm';
 import MyProfile from './MyProfile';
 import Footer from './Footer';
 import LoginPopup from './LoginPopup';
-import RecommendationsManager from './RecommendationsManager';
 
 function App(props) {
 
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  // const [timestamp, setTimestamp] = useState();
   const [ttlValue, setTtlValue] = useState();
+  const [details, setDetails] = useState({username: '', password: ''});
+  const [loginError, setLoginError] = useState('');
 
   useEffect((currentUser) => {
     if (currentUser === null) {
@@ -26,23 +29,20 @@ function App(props) {
     }
   }, []);
 
-  useEffect(() => {
-    if (currentUser !== null && ttlValue !== 0 ) {
-        if (!ttlValue) {
-            setTtlValue(currentUser.ttl);
-        }
-        if (ttlValue !== 0) {
-            let interval = setInterval(() => setTtlValue(ttlValue => ttlValue - 1), 1);
-            if (interval === 0) { //???
-              localStorage.clear();
-              console.log('reached ttl = 0');
-          }
-            return () => {
-                clearTimeout(interval);
-            };
-        }
-    }
-}, [currentUser, ttlValue]);
+  // useEffect(() => {
+  //   if (currentUser != null && ttlValue != null && ttlValue != timestamp) {
+  //     const interval = setInterval(() => {
+  //       let newTimestamp = Date.now();
+  //       let timeElapsed = newTimestamp - timestamp;
+  //       if (timeElapsed >= ttlValue) {
+  //         handleUserLogout();
+  //       } else {
+  //         setTtlValue(ttlValue => currentUser.ttl - timeElapsed);
+  //       }
+  //     }, 1);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [currentUser]);
 
   const setModalIsOpenToTrue = () => {
     setModalIsOpen(true)
@@ -50,6 +50,81 @@ function App(props) {
 
   const setModalIsOpenToFalse = () => {
     setModalIsOpen(false)
+  }
+
+  const submitHandler = e => {
+    e.preventDefault();
+    handleUserLogin(details);
+}
+
+const handleUserLogin = details => {
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+
+    if (details.username === undefined || details.password === undefined || details.username.trim() === "" || details.password.trim() === "") {
+        setLoginError("Uzupełnij oba pola!");
+    }
+    else {
+        axios.post(
+            'https://akademia108.pl/api/social-app/user/login',
+            {
+                'username': details.username,
+                'password': details.password
+            },
+            { 'headers': headers })
+            .then(response => {
+                if (response.data.jwt_token !== undefined) {
+
+                    localStorage.setItem('user', JSON.stringify(response.data));
+                    setLoginError("");
+
+                    setTtlValue(response.data.ttl);
+                    // setTimestamp(Date.now());
+                    setCurrentUser(response.data);
+                    console.log(`User logged in: ${localStorage.user}`);
+                } else {
+                    setLoginError('Incorrect username or password');
+                }
+            }).catch(error => {
+                console.log("Error: ");
+                console.error(error);
+            })
+    }
+  }
+
+  const handleUserLogout = () => {
+    if (currentUser != null) {
+
+        let accessToken = currentUser.jwt_token;
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+        }
+        axios.post(
+            'https://akademia108.pl/api/social-app/user/logout',
+            {},
+            {'headers': headers })
+            .then(response => {
+                setCurrentUser(null);
+
+            }).catch(error => {
+                console.log("Error: ");
+                console.error(error);
+            })
+    }
+    localStorage.clear();
+  }
+
+  const onUsernameChanged = (e) => {
+    setDetails({ ...details, username: e.target.value });
+  }
+
+  const onPasswordChanged = (e) => {
+    setDetails({ ...details, password: e.target.value });
   }
 
   return (
@@ -69,26 +144,23 @@ function App(props) {
 
       <BrowserRouter>
         <div className="menu">
-          <Menu userLoggedIn={currentUser} updateUser={setCurrentUser} />
+          <Menu userLoggedIn={currentUser} handleUserLogout={handleUserLogout}/>
         </div>
         <div className="main-content">
           <Switch>
             <Route exact path="/">
-              <Home />
+              <Home currentUser={currentUser} />
             </Route>
             <Route path="/signup">
               <SignUpForm />
             </Route>
             <Route path="/login">
-              <LoginForm updateUser={setCurrentUser} />
+              <LoginForm onUsernameChanged={onUsernameChanged} onPasswordChanged={onPasswordChanged} username={details.username} password={details.password} submitHandler={submitHandler} loginError={loginError}/>
             </Route>
             <Route path="/my_profile">
               <MyProfile />
             </Route>
           </Switch>
-        </div>
-        <div className="sidebar">
-          {currentUser && <RecommendationsManager />}
         </div>
       </BrowserRouter>
 

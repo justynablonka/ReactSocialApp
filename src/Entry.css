@@ -66,3 +66,9 @@ img:hover {
 .likeBtn.liked:hover {
     color: #000;
 }
+
+.deleteBtn:hover {
+    cursor: pointer;
+    color: #ff0000;
+}
+
