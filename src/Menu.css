@@ -1,17 +1,28 @@
 #main-menu {
     width: 100%;
     padding: 30px 40px;
+    /* position: fixed; */
+    /* top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 1; */
+}
+
+#main-menu-list {
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
 }
 
 #main-menu-list li {
-    list-style: none;
-    text-align: left;
-    line-height: 2;
+    display: inline;
+    margin: 0px 40px;
 }
 
 #main-menu-list li a {
     text-decoration: none;
-    color: #fff;
+    color: white;
+    /* color: red; */
     transition: 0.4s;
     font-weight: 300;
 }

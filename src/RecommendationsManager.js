@@ -1,8 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Recommendation from './Recommendation';
 
-function Sidebar() {
+function RecommendationsManager(props) {
+
+    const [recommendations, setRecommendations] = useState([]);
+
+    useEffect(() => {
+        getFollowRecommendations();
+    }, []);
 
     const getFollowRecommendations = () => {
         let user = JSON.parse(localStorage.getItem('user'));
@@ -21,13 +28,23 @@ function Sidebar() {
                 { 'headers': headers })
 
                 .then(response => {
-                    console.log(response);
+                    for (let userToFollow of response.data) {
+                        //console.log(response.data);
+                        let key = userToFollow.id;
+                        let username = userToFollow.username;
+                        let avatar_url = userToFollow.avatar_url;
+
+                        let newRecommendation = <Recommendation key={key} username={username} avatar_url={avatar_url} />;
+                        setRecommendations(oldRecommendations => [...oldRecommendations, newRecommendation]);
+                    }
+
                 })
                 .catch(error => {
                     console.log(error);
                 })
         }
-    }
+        return recommendations;
+    };
 
     const followUser = () => {
         let user = JSON.parse(localStorage.getItem('user'));
@@ -55,8 +72,13 @@ function Sidebar() {
     }
 
     return (
-        <ul></ul>
+        <>
+            <h3 className="recommendations-title">Users you may know:</h3>
+            <ul className="recommendations-list">
+                {recommendations}
+            </ul>
+        </>
     );
 };
 
-export default Sidebar;
+export default RecommendationsManager;

@@ -107,7 +107,7 @@
     left: -5px;
     right: -5px;
     bottom: -5px;
-    z-index: 1;
+    z-index: 10;
     background-image: linear-gradient(to bottom right, #FFCE00, #FE4880);
   }
   
@@ -116,7 +116,7 @@
       display: block;
       background-color: #FFF;
       padding: 30px;
-      z-index: 2;
+      z-index: 20;
   }
   
   #create-account-form .form-inner h2 {

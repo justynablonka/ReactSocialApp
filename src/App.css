@@ -6,7 +6,7 @@
 
 .App-header {
   background-color: #000;
-  min-height: 20vh;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,11 +16,29 @@
 }
 
 .menu {
-  position: fixed;
-  height: 100%;
-  width: 180px;
+  height: auto;
+  width: 100%;
   background-color:rgb(0, 0, 0);
-  z-index: 10;
+  z-index: 50;
+}
+
+#parTTL {
+  font-size: 12px;
+  padding-top: 30px;
+  text-align: center;
+}
+
+#countdownSpan {
+  font-size: 14px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 10px;
+  top: 210px;
+  z-index: 60;
 }
 
 .main-content {

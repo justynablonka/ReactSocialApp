@@ -48,11 +48,21 @@ img:hover {
 
 .followBtn {
     font-weight: 700;
+    font-style: italic;
 }
 
 .followBtn:hover,
 .likeBtn:hover {
     cursor: pointer;
     color: rgb(187, 81, 201);
-    transition: 0.4s;
+}
+
+.followBtn.followed,
+.likeBtn.liked {
+    color: rgb(187, 81, 201);
+}
+
+.followBtn.followed:hover,
+.likeBtn.liked:hover {
+    color: #000;
 }
